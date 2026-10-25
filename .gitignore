@@ -1,0 +1,8 @@
+build/
+*.dll
+*.DLL
+*.exe
+*.log
+*.tcx
+*.fit
+.DS_Store
