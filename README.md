@@ -18,7 +18,7 @@ This repository contains the tested Windows bridge source fixes and a local scre
 | Bridge | Trainer detected and live watts confirmed in GTBikeV |
 | Screenshot repair | Activity saves and F5 still works after restarting the game |
 
-A later FIT recording passed integrity checks and extends beyond the former 5 km failure point. Menu responsiveness after that longer ride was not separately confirmed. Trainer control commands were observed being forwarded, but physical resistance changes were not independently verified.
+A later recording of the activity with the GTBikeV mod worked. Trainer control commands were observed being forwarded, but physical resistance changes were not independently verified.
 
 ## Connection path
 
@@ -38,7 +38,7 @@ Direct Windows BLE discovery did not work in this tested CrossOver version. The 
 
 Start from [Dev869/wattline at commit 1387087](https://github.com/Dev869/wattline/tree/1387087d6383422a86f7f9d4c85530f9421c65d8). Later upstream changes removed the ANT bridge, so the pinned commit matters. The local app also needed macOS Bluetooth authorization, launch on Bluetooth `poweredOn`, repeated BLE scans and the ANT emulator running with `--always`. Those local app changes are described here; the full customized app is not included. Adapt upstream application paths to your installation before building or launching it.
 
-## Three fixes for an empty device list
+## Three fixes for an empty device list in the GTBikeV Mod
 
 1. **Return ASCII USB identity strings.** The tested receiver parses `SI_GetProductString` VID/PID as hexadecimal text, and the serial number as decimal text. Returning binary words caused it to discard the virtual receiver before `SI_Open`. The shim now returns `0FCF`, `1008` and `11170001`.
 2. **Supply the required manufacturing interface.** The receiver loads `DSI_CP210xManufacturing_3_1.dll` before opening the device. The companion implements the five required exports for the virtual receiver. Reset forwards an ANT reset packet over the existing connection. It does not program firmware or access physical USB devices. Signatures were checked against the [Dynastream interface header](https://github.com/ursoft/ANT_Libraries/blob/master/ANT_LIB/libraries/DSI_CP210xManufacturingDLL_3_1.h).
